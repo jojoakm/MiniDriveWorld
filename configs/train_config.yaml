@@ -1,0 +1,74 @@
+# MiniDriveWorld 训练配置
+
+# 数据配置
+data:
+  dataset: "nuscenes"
+  data_root: "./data/nuscenes"
+  version: "v1.0-mini"      # mini 版本用于测试
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  
+  # 数据加载
+  batch_size: 8
+  num_workers: 4
+  pin_memory: true
+  
+  # 数据增强
+  augmentation:
+    random_flip: true
+    random_crop: true
+    color_jitter: true
+    normalize: true
+
+# 训练配置
+training:
+  epochs: 100
+  gradient_clip: 1.0
+  accumulate_grad_batches: 4
+  
+  # 优化器
+  optimizer:
+    type: "AdamW"
+    lr: 1e-4
+    weight_decay: 0.01
+    betas: [0.9, 0.999]
+    
+  # 学习率调度
+  scheduler:
+    type: "CosineAnnealingLR"
+    T_max: 100
+    eta_min: 1e-6
+    
+  # 损失函数
+  loss:
+    reconstruction_weight: 1.0
+    perceptual_weight: 0.1
+    diffusion_weight: 1.0
+
+# 分布式训练
+distributed:
+  enabled: true
+  strategy: "ddp"           # DistributedDataParallel
+  num_gpus: 4
+  
+# 日志与保存
+logging:
+  log_dir: "./logs"
+  save_dir: "./checkpoints"
+  save_every: 5             # 每 5 个 epoch 保存
+  log_every: 100            # 每 100 步记录
+  
+  # Tensorboard
+  tensorboard: true
+  
+  # Weights & Biases
+  wandb:
+    enabled: false
+    project: "MiniDriveWorld"
+    entity: "your-username"
+
+# 验证配置
+validation:
+  val_every: 1              # 每个 epoch 验证
+  num_samples: 4            # 可视化样本数

@@ -1,0 +1,46 @@
+# MiniDriveWorld 模型配置
+
+model:
+  name: "MiniDriveWorld"
+  type: "transformer_diffusion"
+  
+  # 输入配置
+  input:
+    num_frames: 4           # 输入历史帧数
+    image_size: [256, 256]  # 图像尺寸
+    channels: 3             # RGB
+    
+  # 输出配置
+  output:
+    num_frames: 8           # 预测未来帧数
+    image_size: [256, 256]
+    
+  # 控制信号
+  control:
+    enabled: true
+    dim: 4                  # [steering, throttle, brake, speed]
+    
+  # Transformer 配置
+  transformer:
+    hidden_dim: 512
+    num_layers: 8
+    num_heads: 8
+    mlp_ratio: 4.0
+    dropout: 0.1
+    
+  # 扩散模型配置
+  diffusion:
+    num_steps: 1000         # 训练时的扩散步数
+    inference_steps: 50     # 推理时的采样步数
+    beta_schedule: "cosine"
+    
+  # 编码器配置
+  encoder:
+    type: "resnet50"
+    pretrained: true
+    freeze: false
+    
+  # 解码器配置
+  decoder:
+    type: "unet"
+    channels: [64, 128, 256, 512]
