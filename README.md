@@ -21,6 +21,7 @@ MiniDriveWorld 是一个自动驾驶场景的世界模型项目，能够：
 如果你想知道「先学什么、先做什么、保底做到哪」，请先读：
 
 - [`README_WORK_ORDER.md`](./README_WORK_ORDER.md)
+- [`docs/TOP_CONFERENCE_STRATEGY.md`](./docs/TOP_CONFERENCE_STRATEGY.md)
 
 ---
 
